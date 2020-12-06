@@ -47,4 +47,9 @@ class Solution(object):
         :type extraCandies: int
         :rtype: List[bool]
         """
-        pass
+        kids_max_candies = max(candies)
+
+        for i in range(len(candies)):
+            candies[i] = candies[i] + extraCandies >= kids_max_candies
+
+        return candies
