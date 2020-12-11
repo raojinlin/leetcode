@@ -18,7 +18,32 @@ Constraints:
     1 <= Node.val <= 105
     1 <= low <= high <= 105
     All Node.val are unique.
+
+
+S.NO	BFS	                                    DFS
+1.	    BFS stands for Breadth First Search.	DFS stands for Depth First Search.
+2.	    BFS(Breadth First Search) uses Queue    DFS(Depth First Search) uses Stack data structure.
+        data structure for finding the shortest
+        path.
+3.	    BFS can be used to find single source   In DFS, we might traverse through more edges to reach a destination vertex from a source.
+        shortest path in an unweighted graph,
+        because in BFS, we reach a vertex
+        with minimum number of edges from
+        a source vertex.
+3.	    BFS is more suitable for searching      DFS is more suitable when there are solutions away from source.
+        vertices which are closer to the given
+        source.
+4.	    BFS considers all neighbors first        DFS is more suitable for game or puzzle problems. We make a decision, then explore all paths through this decision. And if this decision leads to win situation, we stop.
+        and therefore not suitable for decision
+        making trees used in games or puzzles.
+5.	    The Time complexity of BFS is O(V + E)   The Time complexity of DFS is also O(V + E) when Adjacency List is used and O(V^2) when Adjacency Matrix is used, where V stands for vertices and E stands for edges.
+        when Adjacency List is used and O(V^2)
+        when Adjacency Matrix is used,
+        where V stands for vertices and E
+        stands for edges.
 """
+
+import queue
 
 
 class TreeNode(object):
@@ -56,5 +81,46 @@ class Solution(object):
         :type high: int
         :rtype: int
         """
-        pass
+        q = queue.Queue()
+        q.put(root)
 
+        result = 0
+        while not q.empty():
+            n = q.get()
+
+            if n.left:
+                q.put(n.left)
+
+            if n.right:
+                q.put(n.right)
+
+            if high >= n.val >= low:
+                result += n.val
+
+        return result
+
+    def sum(self, root, low, high):
+        if not root:
+            return 0
+
+        result = 0
+        if high >= root.val >= low:
+            result += root.val
+
+        if high >= root.val:
+            result += self.sum(root.right, low, high)
+
+        if low <= root.val:
+            result += self.sum(root.left, low, high)
+
+        return result
+
+
+if __name__ == '__main__':
+    s = Solution()
+    root = TreeNode(10, TreeNode(5), TreeNode(15))
+    root.left.left = TreeNode(3)
+    root.left.right = TreeNode(7)
+    root.right.right = TreeNode(18)
+    print(s.sum(root, 7, 15))
+    # print(dfs(root, 181))
