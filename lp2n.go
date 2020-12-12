@@ -15,7 +15,7 @@ func upperFirst(token string) string {
 	}
 
 	t := strings.ToLower(token)
-	t = strings.ToUpper(string(t[0])) + token[1:]
+	t = strings.ToUpper(string(t[0])) + t[1:]
 
 	return t
 }
@@ -36,10 +36,12 @@ func toTokens(title string) []string {
 // P1588_SumOfAllOddLengthSubarrays.py
 func convertProblemTitle(title, prefix, suffix string) string {
 	tokens := toTokens(title)
-	filename := prefix + strings.Replace(tokens[0], ".", "", 1) + "_"
+	filename := prefix + tokens[0] + "_"
 
 	for _, token := range tokens[1:] {
-		filename += upperFirst(token)
+        if token != "" {
+            filename += upperFirst(token)
+        }
 	}
 
 	return filename + suffix
